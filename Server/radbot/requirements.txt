@@ -1,0 +1,5 @@
+irc==8.5.4
+django==1.6
+fabric
+django-json-field
+mimeparse
