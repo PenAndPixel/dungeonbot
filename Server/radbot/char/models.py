@@ -39,8 +39,8 @@ class Character(models.Model):
     )
 
     user = models.CharField(max_length=255)
-    race = models.ForeignKey('srd20.Race')
-    game = models.ForeignKey('game.Game', null=True, blank=True)
+    race = models.ForeignKey('srd20.Race', on_delete=models.CASCADE)
+    game = models.ForeignKey('game.Game', null=True, blank=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=64)
     level = models.IntegerField()
     sex = models.CharField(max_length=1, choices=SEX_CHOICES)
@@ -100,7 +100,7 @@ class Character(models.Model):
 
 
 class CharacterHealth(models.Model):
-    character = models.ForeignKey(Character)
+    character = models.ForeignKey(Character, on_delete=models.CASCADE)
     maximum = models.IntegerField(default=0)
     current = models.IntegerField(default=0)
 
@@ -109,8 +109,8 @@ class CharacterHealth(models.Model):
 
 
 class Class(models.Model):
-    character = models.ForeignKey(Character)
-    type = models.ForeignKey(CharacterClass)
+    character = models.ForeignKey(Character, on_delete=models.CASCADE)
+    type = models.ForeignKey(CharacterClass, on_delete=models.CASCADE)
     level = models.IntegerField()
     preferred = models.BooleanField()
 
@@ -122,8 +122,8 @@ class Class(models.Model):
 
 
 class Invite(models.Model):
-    character = models.ForeignKey(Character)
-    game = models.ForeignKey('game.Game')
+    character = models.ForeignKey(Character, on_delete=models.CASCADE)
+    game = models.ForeignKey('game.Game', on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
 
     def __unicode__(self):

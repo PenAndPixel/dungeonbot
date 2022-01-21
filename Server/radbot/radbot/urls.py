@@ -1,12 +1,6 @@
-from django.conf.urls import patterns, include, url
-
+from django.urls import include, path
 from django.contrib import admin
-admin.autodiscover()
 
-urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'radbot.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
-
-    url(r'^admin/', include(admin.site.urls)),
-)
+urlpatterns = [
+    path("admin/", admin.site.urls),
+]

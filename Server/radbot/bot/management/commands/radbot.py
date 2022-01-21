@@ -117,7 +117,7 @@ def main():
 
     bot = TestBot(channel, nickname, server, port)
     bot.start()
-    print "bingo"
+    print("bingo")
 
 if __name__ == "__main__":
     main()

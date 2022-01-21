@@ -46,7 +46,6 @@ class Spell(models.Model):
     reference = models.CharField(max_length=30,
         help_text='Book containing the spell and pag. Example: "SpC 31"') # Should be a FK
 
-    @models.permalink
     def get_absolute_url(self):
         return ('spell_detail', [], {'slug': self.altname})
 
@@ -75,7 +74,6 @@ class Feat(models.Model):
     def short_description(self):
         return self.description
     
-    @models.permalink
     def get_absolute_url(self):
         return ('feat_detail', [], {'slug': self.altname})
 
@@ -249,7 +247,6 @@ class Monster(models.Model):
     def __unicode__(self):
         return self.name
 
-    @models.permalink
     def get_absolute_url(self):
         return ('monster_detail', [], {'slug': self.altname})
     
@@ -266,7 +263,7 @@ class MonsterAbility(models.Model):
         ('su', 'Supernatural'),
         ('ex', 'Extraordinary'),
     )
-    monster = models.ForeignKey(Monster)
+    monster = models.ForeignKey(Monster, on_delete=models.CASCADE)
     name = models.CharField(max_length=128)
     kind = models.CharField(max_length=2, choices=ABILITY_KINDS)
     description = models.TextField()
@@ -276,7 +273,7 @@ class Skill(models.Model):
     name = models.CharField(max_length=64)
     untrained = models.BooleanField(default=True)
     ac_penalty = models.BooleanField(default=False)
-    ability = models.ForeignKey(Ability)
+    ability = models.ForeignKey(Ability, on_delete=models.CASCADE)
     description = models.TextField(default="", null=True, blank=True)
 
     def __unicode__(self):

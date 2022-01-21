@@ -63,7 +63,7 @@ class BonusItem(models.Model):
                 item=random.randint(1, 7),
                 effect=random.randint(1, 5),
             )
-            print item
+            print(item)
             #import pdb; pdb.set_trace()
             base = item[0].quality+item[0].item+item[0].effect
             item[0].total = base//3
@@ -87,7 +87,7 @@ class FightLog(models.Model):
         (1, 'Monster'),
     )
 
-    fight = models.ForeignKey('Fight')
+    fight = models.ForeignKey('Fight', on_delete=models.CASCADE)
     damage = models.IntegerField()
     hp = models.IntegerField()
     actor = models.CharField(max_length=1, choices=ACTOR_EFFECT)
@@ -104,9 +104,9 @@ class Fight(models.Model):
 
     """
     timestamp = models.DateTimeField(auto_now=True)
-    monster = models.ForeignKey(Monster)
-    item = models.ForeignKey(BonusItem, blank=True, null=True)
-    character = models.ForeignKey(Character)
+    monster = models.ForeignKey(Monster, on_delete=models.CASCADE)
+    item = models.ForeignKey(BonusItem, blank=True, null=True, on_delete=models.CASCADE)
+    character = models.ForeignKey(Character, on_delete=models.CASCADE)
 
     char_attack = models.IntegerField()
     char_hp = models.IntegerField()
@@ -187,7 +187,7 @@ class Fight(models.Model):
                     #If the monster is dead, win the fight
                     if fight.mon_hp <= 0:
                         win = True
-                        print "Hero Win"
+                        print("Hero Win")
 
                     #log the fight
                     log = FightLog(
@@ -203,7 +203,7 @@ class Fight(models.Model):
                         fight.save()
                     fight.save()
                     log.save()
-                    print log
+                    print(log)
 
                 hero_intitiative = 0
 
@@ -222,7 +222,7 @@ class Fight(models.Model):
                     #If the monster is dead, win the fight
                     if fight.char_hp <= 0:
                         win = True
-                        print "Monster Win"
+                        print("Monster Win")
 
                     #log the fight
                     log = FightLog(
@@ -234,7 +234,7 @@ class Fight(models.Model):
                     )
                     fight.save()
                     log.save()
-                    print log
+                    print(log)
 
                 hero_intitiative = 1
 

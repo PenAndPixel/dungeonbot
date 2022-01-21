@@ -73,7 +73,7 @@ class TestBot(irc.bot.SingleServerIRCBot):
         elif cmd == "dance_party":
             c.notice(self.channels.items()[0][0], "Teach me how to dance please.")
         elif cmd_split[0] == "JOINxx" and nick == 'RadCash':
-            print nick
+            print(nick)
             c.join(cmd)
         elif cmd == "dcc":
             dcc = self.dcc_listen()
@@ -120,4 +120,4 @@ class Command(BaseCommand):
 
         bot = TestBot(channel, nickname, server, port)
         bot.start()
-        print "bingo"
+        print("bingo")

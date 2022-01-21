@@ -8,7 +8,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Game(models.Model):
-    #gm = models.ForeignKey(User)
+    #gm = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=32)
     #map = models.FileField(upload_to='maps/', null=True, blank=True)
 
@@ -17,7 +17,7 @@ class Game(models.Model):
 
 
 class Encounter(models.Model):
-    game = models.ForeignKey(Game)
+    game = models.ForeignKey(Game, on_delete=models.CASCADE)
     name = models.CharField(max_length=32)
 
     def __unicode__(self):
@@ -25,9 +25,9 @@ class Encounter(models.Model):
 
 
 class EncounterMember(models.Model):
-    encounter = models.ForeignKey(Encounter)
-    character = models.ForeignKey('char.Character', null=True, blank=True)
-    monster = models.ForeignKey('srd20.Monster', null=True, blank=True)
+    encounter = models.ForeignKey(Encounter, on_delete=models.CASCADE)
+    character = models.ForeignKey('char.Character', null=True, blank=True, on_delete=models.CASCADE)
+    monster = models.ForeignKey('srd20.Monster', null=True, blank=True, on_delete=models.CASCADE)
     initiative = models.IntegerField()
 
     def __unicode__(self):
@@ -43,7 +43,7 @@ class EncounterMember(models.Model):
 
 
 class EncounterEvent(models.Model):
-    encounter = models.ForeignKey(Encounter)
+    encounter = models.ForeignKey(Encounter, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
     notes = models.TextField()
 
