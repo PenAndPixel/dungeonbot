@@ -1,7 +1,10 @@
 from django.db import models
 from srd20.models import Monster
 from char.models import Character, Name
-from char.models import Character, Name
+from django.utils.translation import ugettext_lazy as _
+from model_utils import Choices
+from model_utils.fields import StatusField
+
 import random
 
 __admin__ = ('IO', 'BonusItem', 'Fight', 'FightLog')
@@ -24,15 +27,16 @@ class BonusItem(models.Model):
     Random Bonus Item
 
     """
-    ITEM_QUALITY = (
-        (1, 'Awful'),
-        (2, 'Shitty'),
-        (3, 'Pretty OK'),
-        (4, 'Good'),
-        (5, 'Great'),
-        (6, 'Awesome'),
-        (7, 'Fucking Majestic'),
+    ITEM_QUALITY = Choices(
+        (1, 'awful', _("Awful")),
+        (2, 'shitty', _("Shitty")),
+        (3, 'pretty-ok', _("Pretty OK")),
+        (4, 'good', _("Good")),
+        (5, 'great', _("Great")),
+        (6, 'awesome', _("Awesome")),
+        (7, 'majestic', _("Majestic")),
     )
+    
     ITEM_TYPE = (
         (1, 'Rock'),
         (2, 'Pencil'),
@@ -60,22 +64,22 @@ class BonusItem(models.Model):
         if random.randint(0, 1):
             item = BonusItem.objects.get_or_create(
                 quality=random.randint(1, 7),
-                name=Name.objects.order_by('?')[0],
+                name=Name.objects.order_by('?')[0].name,
                 item=random.randint(1, 7),
                 effect=random.randint(1, 5),
-            )
+            )[0]
             print(item)
             #import pdb; pdb.set_trace()
-            base = item[0].quality+item[0].item+item[0].effect
-            item[0].total = base//3
-            item[0].save()
+            base = item.quality+item.item+item.effect
+            item.total = base//3
+            item.save()
         else:
             item = None
         return item
 
-    def __unicode__(self):
+    def __str__(self):
         name = "%s %s %s of %s" % (self.get_quality_display(), self.name, self.get_item_display(), self.get_effect_display())
-        return unicode(name)
+        return name
 
 
 class FightLog(models.Model):
@@ -120,24 +124,23 @@ class Fight(models.Model):
 
     win = models.BooleanField()
 
-    def random_fight(self, user):
+    def random_fight(self, character):
         #set up all the engagement vars. Based of Pathfinder, but simplified... might be totally broken.
         #Document that fight bitch!
         monster = Monster.objects.order_by('?')[0],
         item = BonusItem().random_item(),
 
-        character = Character.objects.get(user=user),
 
         if item[0]:
             fight = Fight.objects.create(
                 monster=monster[0],
-                item=item[0][0],
-                character=character[0],
+                item=item[0],
+                character=character,
 
-                char_attack=character[0].base_attack_bonus(),
-                char_hp_max=character[0].hit_points(),
-                char_hp=character[0].hit_points(),
-                char_ac=character[0].armor_class(),
+                char_attack=character.base_attack_bonus(),
+                char_hp_max=character.hit_points(),
+                char_hp=character.hit_points(),
+                char_ac=character.armor_class(),
                 mon_attack=monster[0].base_attack_bonus,
                 mon_hp_max=monster[0].hit_points.split(' ')[0],
                 mon_hp=monster[0].hit_points.split(' ')[0],
@@ -148,12 +151,12 @@ class Fight(models.Model):
         else:
             fight = Fight.objects.create(
                 monster=monster[0],
-                character=character[0],
+                character=character,
 
-                char_attack=character[0].base_attack_bonus(),
-                char_hp_max=character[0].hit_points(),
-                char_hp=character[0].hit_points(),
-                char_ac=character[0].armor_class(),
+                char_attack=character.base_attack_bonus(),
+                char_hp_max=character.hit_points(),
+                char_hp=character.hit_points(),
+                char_ac=character.armor_class(),
                 mon_attack=monster[0].base_attack_bonus,
                 mon_hp_max=monster[0].hit_points.split(' ')[0],
                 mon_hp=monster[0].hit_points.split(' ')[0],
@@ -168,7 +171,7 @@ class Fight(models.Model):
         hero_intitiative = random.randint(0, 1)
 
         # LETS DO A FIGHT!
-        while fight.char_hp >= 0 and fight.mon_hp >= 0:
+        while int(fight.char_hp) >= 0 and int(fight.mon_hp) >= 0:
             d20 = random.randint(1, 20)
             if hero_intitiative == 1:
                 #if initiative hero first

@@ -1,20 +1,19 @@
 from django.contrib import admin
+from django.conf import settings
 from . import models
-#from mptt.admin import MPTTModelAdmin
 
-#from reversion.admin import VersionAdmin
 
-#class QualificationInline(admin.TabularInline):
-#    model = c_models.Qualification
 
-#class CourseAdmin(admin.ModelAdmin):
-#    inlines = [
-#        QualificationInline,
-#    ]
+class BonusItemAdmin(admin.ModelAdmin):
+    list_display = ['name', 'get_quality_display', 'get_item_display', 'get_effect_display', 'total']
+
 
 __custom_admins__ = {
-
+    'BonusItem': BonusItemAdmin ,
     }
+
+
+
 
 for model in models.__admin__:
     params = [getattr(models, model)]

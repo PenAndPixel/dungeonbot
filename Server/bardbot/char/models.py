@@ -12,6 +12,9 @@ import random
 class Name(models.Model):
     name = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.name
+
     def __unicode__(self):
         return unicode(self.name)
 
@@ -50,6 +53,9 @@ class Character(models.Model):
     dexterity = models.IntegerField(default=10)
     wisdom = models.IntegerField(default=10)
     charisma = models.IntegerField(default=10)
+
+    def __str__(self):
+        return self.name
 
     def __unicode__(self):
         return unicode(self.name)
@@ -103,6 +109,9 @@ class CharacterHealth(models.Model):
     maximum = models.IntegerField(default=0)
     current = models.IntegerField(default=0)
 
+    def __str__(self):
+        return  '[%s] %s : %s' % (self.character.name, self.maximum, self.current)
+
     def __unicode__(self):
         return unicode('[%s] %s : %s' % (self.character.name, self.maximum, self.current))
 
@@ -116,6 +125,9 @@ class Class(models.Model):
     class Meta:
         verbose_name_plural = 'Classes'
 
+    def __str__(self):
+        return '[%s] %s(%s)' % (self.character.name, self.type, self.level)
+
     def __unicode__(self):
         return unicode('[%s] %s(%s)' % (self.character.name, self.type, self.level))
 
@@ -124,6 +136,9 @@ class Invite(models.Model):
     character = models.ForeignKey(Character, on_delete=models.CASCADE)
     game = models.ForeignKey('game.Game', on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return '[%s] %s(%s)' % (self.character.name, self.type, self.level)
 
     def __unicode__(self):
         return unicode('[%s] %s - %s' % (self.date, self.game, self.character))

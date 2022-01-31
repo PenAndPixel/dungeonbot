@@ -90,6 +90,10 @@ LOCAL_APPS = [
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
+# DISCORD
+# ------------------------------------------------------------------------------
+DISCORD_API_KEY = env("DISCORD_API_KEY", default="OTM3NTczODg4NDQxODc2NTEx.Yfdtug.DsPKUPkchDd56ynqiJbxqYMyhYs")
+
 # MIGRATIONS
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#migration-modules
