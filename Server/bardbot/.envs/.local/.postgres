@@ -1,0 +1,7 @@
+# PostgreSQL
+# ------------------------------------------------------------------------------
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+POSTGRES_DB=bardbot
+POSTGRES_USER=FPnkiGpRqvzsRFTAXijoTOqEdBuSWomd
+POSTGRES_PASSWORD=LRXtrKamyeIKsQKX7AGpIhKixm9Jt8WiUVIIoOrXRQ1b3ur2ITQ1RBWsN6reAAly
