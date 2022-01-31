@@ -80,11 +80,11 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "bardbot.users",
-    "bardbot.bot",
-    "bardbot.char",
-    "bardbot.event",
-    "bardbot.game",
-    "bardbot.srd20",
+    "bot",
+    "char",
+    "event",
+    "game",
+    "srd20",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
